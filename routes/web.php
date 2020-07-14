@@ -34,3 +34,16 @@ Route::group(['prefix' => 'post'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Admin routes
+Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => ['auth:web']], function () {
+    Route::get('dashboard', 'DashboardController@index');
+
+    // post routes
+    Route::group(['prefix' => 'post'], function () {
+        Route::get('', 'PostController@index')->name('post.index');
+        Route::get('create', 'PostController@create')->name('post.create');
+        Route::post('store', 'PostController@store')->name('post.store');
+        Route::post('delete', 'PostController@delete')->name('post.delete');
+    });
+});
